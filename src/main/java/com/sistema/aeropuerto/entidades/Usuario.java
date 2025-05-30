@@ -69,7 +69,7 @@ public class Usuario implements UserDetails{
   public Collection<? extends GrantedAuthority> getAuthorities() {
     Set<Authority> autoridades = new HashSet<>();
     this.usuarioRoles.forEach(usuarioRol -> {
-      autoridades.add(new Authority(usuarioRol.getRol().getNombre()));
+      autoridades.add(new Authority(usuarioRol.getRol().getRolNombre()));
     });
     return autoridades;
   }
