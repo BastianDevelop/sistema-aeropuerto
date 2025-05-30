@@ -17,10 +17,22 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 
-  private static final String SECRET_KEY = "ZXhhbXBvcnRhbA=="; // "examportal" en Base64
+  // =========================================================
+  // ¡¡¡ CAMBIO CRÍTICO AQUÍ: Nueva CLAVE SECRETA SEGURA !!!
+  // Generada para ser HS256 compatible (mínimo 256 bits).
+  // Este String Base64 DEBE ser el resultado de codificar
+  // una secuencia de bytes de AL MENOS 32 caracteres/bytes.
+  // Un generador online de Base64 de 32 caracteres aleatorios podría ser útil.
+  // Por ejemplo, "unaClaveSecretaSuperSeguraParaJWT256Bits!"
+  // en Base64 sería: dW5hQ2xhdmVTZWNyZXRhU3VwZXJTZWd1cmFQYXJhSldUMjU2Qml0cyE=
+  // =========================================================
+  private static final String SECRET_KEY = "dW5hQ2xhdmVTZWNyZXRhU3VwZXJTZWd1cmFQYXJhSldUMjU2Qml0cyE=";
+
 
   private SecretKey getSigningKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+    // JJWT 0.12.x+ requiere que la clave sea de al menos 256 bits para HS256.
+    // Keys.hmacShaKeyFor(keyBytes) valida esto.
     return Keys.hmacShaKeyFor(keyBytes);
   }
 
@@ -38,11 +50,12 @@ public class JwtUtils {
   }
 
   private Claims extractAllClaims(String token) {
+    // JJWT 0.12.x+ usa parseSignedClaims y verifyWith
     return Jwts.parser()
-      .verifyWith(getSigningKey())
-      .build()
-      .parseSignedClaims(token)
-      .getPayload();
+        .verifyWith(getSigningKey())
+        .build()
+        .parseSignedClaims(token)
+        .getPayload();
   }
 
   private Boolean isTokenExpired(String token) {
@@ -55,13 +68,14 @@ public class JwtUtils {
   }
 
   private String createToken(Map<String, Object> claims, String subject) {
+    // JJWT 0.12.x+ usa signWith(SecretKey, SignatureAlgorithm)
     return Jwts.builder()
-      .setClaims(claims)
-      .setSubject(subject)
-      .setIssuedAt(new Date(System.currentTimeMillis()))
-      .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-      .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-      .compact();
+        .setClaims(claims)
+        .setSubject(subject)
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas de validez
+        .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+        .compact();
   }
 
   public Boolean validateToken(String token, UserDetails userDetails) {
