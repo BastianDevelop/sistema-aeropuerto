@@ -31,19 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     String requestURI = request.getRequestURI();
 
-    // ==============================================================
-    // Paso CRÍTICO: Excluir explícitamente las rutas públicas
-    // Si la URL es de las que no requieren autenticación, pasamos el control
-    // al siguiente filtro inmediatamente y salimos del método.
-    // ==============================================================
     if (requestURI.equals("/generate-token") || requestURI.equals("/usuarios/")) {
       filterChain.doFilter(request, response);
       return; // Muy importante: salimos del método para no ejecutar el resto de la lógica JWT
     }
 
-    // ==============================================================
-    // Lógica de validación JWT (solo si no es una ruta pública)
-    // ==============================================================
     String requestTokenHeader = request.getHeader("Authorization");
     String username = null;
     String jwtToken = null;
@@ -54,14 +46,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         username = this.jwtUtils.extractUsername(jwtToken);
       } catch (ExpiredJwtException expiredJwtException) {
         System.out.println("JWT Token ha expirado: " + expiredJwtException.getMessage());
-        // Puedes agregar una respuesta de error al cliente si lo deseas aquí
-        // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
-        // return;
       } catch (Exception exception) {
         System.out.println("JWT Token es inválido: " + exception.getMessage());
         exception.printStackTrace(); // Para ver el stack trace completo
-        // response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
-        // return;
       }
     } else {
       // Este mensaje ya no debería aparecer para /generate-token o /usuarios/
@@ -85,11 +72,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("JWT Token no es válido (validación fallida)");
       }
     }
-    // else { // Puedes descomentar este bloque si necesitas depurar cuándo no hay username o ya hay autenticación
-    //   System.out.println("Username es nulo o el contexto de seguridad ya está establecido para URI: " + requestURI);
-    // }
-
-    // Siempre llama al siguiente filtro en la cadena al final del método
     filterChain.doFilter(request, response);
   }
 }

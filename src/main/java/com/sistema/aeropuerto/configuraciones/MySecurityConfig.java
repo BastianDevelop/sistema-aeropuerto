@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy; // Nueva importación
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // ¡Cambio recomendado!
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain; // Nueva importación
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter; // Nueva importación
 
@@ -34,9 +33,7 @@ public class MySecurityConfig { // Ya no extiende WebSecurityConfigurerAdapter
 
   // 1. PasswordEncoder: ¡Cambio recomendado a BCrypt!
   @Bean
-  public PasswordEncoder passwordEncoder() {
-    // NoOpPasswordEncoder es solo para desarrollo y NO DEBE USARSE EN PRODUCCIÓN.
-    // Se recomienda encarecidamente usar BCryptPasswordEncoder.
+  public BCryptPasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
   }
 
@@ -85,52 +82,3 @@ public class MySecurityConfig { // Ya no extiende WebSecurityConfigurerAdapter
   }
 }
 
-
-
-
-
-/*
-package com.sistema.aeropuerto.configuraciones;
-
-import com.sistema.aeropuerto.servicios.impl.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-@EnableWebSecurity
-@Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class MySecurityConfig extends WebSecurityConfigurerAdapter {
-
-  @Autowired
-  private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-  @Autowired
-  private UserDetailsServiceImpl userDetailsService;
-
-  @Autowired
-  private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-      return super.authenticationManagerBean();
-  }
-
-  public PasswordEncoder passwordEncoder() {
-      return NoOpPasswordEncoder.getInstance();
-  }
-
-  @Override
-  protected void configure(HttpSecurity http) throws Exception{
-    super .configure(http);
-  }
-}
-*/

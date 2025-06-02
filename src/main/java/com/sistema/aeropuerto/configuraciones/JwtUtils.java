@@ -17,17 +17,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 
-  // =========================================================
-  // ¡¡¡ CAMBIO CRÍTICO AQUÍ: Nueva CLAVE SECRETA SEGURA !!!
-  // Generada para ser HS256 compatible (mínimo 256 bits).
-  // Este String Base64 DEBE ser el resultado de codificar
-  // una secuencia de bytes de AL MENOS 32 caracteres/bytes.
-  // Un generador online de Base64 de 32 caracteres aleatorios podría ser útil.
-  // Por ejemplo, "unaClaveSecretaSuperSeguraParaJWT256Bits!"
-  // en Base64 sería: dW5hQ2xhdmVTZWNyZXRhU3VwZXJTZWd1cmFQYXJhSldUMjU2Qml0cyE=
-  // =========================================================
   private static final String SECRET_KEY = "dW5hQ2xhdmVTZWNyZXRhU3VwZXJTZWd1cmFQYXJhSldUMjU2Qml0cyE=";
-
 
   private SecretKey getSigningKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);

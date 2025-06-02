@@ -43,5 +43,4 @@ public class UsuarioRol {
   public UsuarioRol(){
   }
 
-
 }

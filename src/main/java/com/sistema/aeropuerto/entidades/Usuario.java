@@ -141,8 +141,4 @@ public class Usuario implements UserDetails{
   public Usuario() {
   }
 
-
-
-
-
 }

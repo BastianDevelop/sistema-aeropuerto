@@ -4,6 +4,7 @@ import com.sistema.aeropuerto.configuraciones.JwtUtils;
 import com.sistema.aeropuerto.entidades.JwtRequest;
 import com.sistema.aeropuerto.entidades.JwtResponse;
 import com.sistema.aeropuerto.entidades.Usuario;
+import com.sistema.aeropuerto.excepciones.UsuarioFoundException;
 import com.sistema.aeropuerto.servicios.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class AuthtenticationController {
   public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception{
     try{
       autenticar(jwtRequest.getUsername(), jwtRequest.getPassword());
-    }catch ( Exception exception){
+    }catch (UsuarioFoundException exception){
         exception.printStackTrace();
         throw new Exception("Usuario no encontrado " + exception.getMessage());
     }
@@ -60,11 +61,4 @@ public class AuthtenticationController {
   public Usuario obtenerUsuarioActual(Principal principal) {
     return (Usuario) this.userDetailsService.loadUserByUsername(principal.getName());
   }
-
-
-
-
-
-
-
 }

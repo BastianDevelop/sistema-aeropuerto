@@ -2,6 +2,7 @@ package com.sistema.aeropuerto.servicios.impl;
 
 import com.sistema.aeropuerto.entidades.Usuario;
 import com.sistema.aeropuerto.entidades.UsuarioRol;
+import com.sistema.aeropuerto.excepciones.UsuarioFoundException;
 import com.sistema.aeropuerto.repositorios.RolRepository;
 import com.sistema.aeropuerto.repositorios.UsuarioRepository;
 import com.sistema.aeropuerto.servicios.UsuarioService;
@@ -28,14 +29,17 @@ public class UsuarioServiceImpl implements UsuarioService {
     Usuario usuarioLocal = usuarioRepository .findByUsername(usuario.getUsername());
     if (usuarioLocal != null) {
       System.out.println("El usuario ya existe");
-      throw new Exception("El usuario ya esta por hay");
+      throw new UsuarioFoundException("El usuario ya esta en la DataBase");
     }else {
       for (UsuarioRol usuarioRol : usuarioRoles) {
-        rolRepository.save(usuarioRol.getRol());
+        // Verifica si el rol ya existe antes de guardarlo
+        if (!rolRepository.existsById(usuarioRol.getRol().getRolId())) {
+          rolRepository.save(usuarioRol.getRol());
+        }
       }
       usuario.getUsuarioRoles().addAll(usuarioRoles);
-
-      usuario.setPassword(this.passwordEncoder.encode(usuario.getPassword())); // ¡USA LA INTERFAZ!
+      // ¡CODIFICACIÓN DE CONTRASEÑA AQUÍ!
+      usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
       usuarioLocal = usuarioRepository.save(usuario);
     }
