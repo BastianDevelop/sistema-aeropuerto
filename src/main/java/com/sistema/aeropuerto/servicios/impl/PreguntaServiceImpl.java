@@ -47,14 +47,11 @@ public class PreguntaServiceImpl implements PreguntaService {
     preguntaRepository.delete(pregunta);
   }
 
-
-
-  /*
   @Override
   public Pregunta listarPregunta(Long preguntaId) {
     return this.preguntaRepository.getOne(preguntaId);
   }
-  */
+
 
 
 }

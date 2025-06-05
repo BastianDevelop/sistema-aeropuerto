@@ -1,5 +1,6 @@
 package com.sistema.aeropuerto.controladores;
 
+import com.sistema.aeropuerto.entidades.Categoria;
 import com.sistema.aeropuerto.entidades.Examen;
 import com.sistema.aeropuerto.servicios.ExamenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class ExamenController {
     examenService.eliminarExamen(examenId);
   }
 
-  /*
+
   @GetMapping("/categoria/{categoriaId}")
   public List<Examen> listarExamenesDeUnaCategoria(@PathVariable("categoriaId") Long categoriaId){
     Categoria categoria = new Categoria();
@@ -60,7 +61,5 @@ public class ExamenController {
     categoria.setCategoriaId(categoriaId);
     return examenService.obtenerExamenesActivosDeUnaCategoria(categoria);
   }
-  */
-
 
 }

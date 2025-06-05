@@ -55,7 +55,8 @@ public class PreguntaController {
     preguntaService.eliminarPregunta(preguntaId);
   }
 
-  /*
+
+
   @GetMapping("/examen/todos/{examenId}")
   public ResponseEntity<?> listarPreguntaDelExamenComoAdministrador(@PathVariable("examenId") Long examenId){
     Examen examen = new Examen();
@@ -63,6 +64,9 @@ public class PreguntaController {
     Set<Pregunta> preguntas = preguntaService.obtenerPreguntasDelExamen(examen);
     return ResponseEntity.ok(preguntas);
   }
+
+
+
 
   @PostMapping("/evaluar-examen")
   public ResponseEntity<?> evaluarExamen(@RequestBody List<Pregunta> preguntas){
@@ -88,6 +92,6 @@ public class PreguntaController {
     respuestas.put("intentos",intentos);
     return ResponseEntity.ok(respuestas);
   }
-  */
+
 
 }

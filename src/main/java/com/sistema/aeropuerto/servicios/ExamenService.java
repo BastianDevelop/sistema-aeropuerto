@@ -18,10 +18,10 @@ public interface ExamenService {
 
   void eliminarExamen(Long examenId);
 
-  //List<Examen> listarExamenesDeUnaCategoria(Categoria categoria);
+  List<Examen> listarExamenesDeUnaCategoria(Categoria categoria);
 
-  //List<Examen> obtenerExamenesActivos();
+  List<Examen> obtenerExamenesActivos();
 
-  //List<Examen> obtenerExamenesActivosDeUnaCategoria(Categoria categoria);
+  List<Examen> obtenerExamenesActivosDeUnaCategoria(Categoria categoria);
 
 }

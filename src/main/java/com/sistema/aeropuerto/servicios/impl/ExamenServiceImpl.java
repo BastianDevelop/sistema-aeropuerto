@@ -44,7 +44,7 @@ public class ExamenServiceImpl implements ExamenService {
     examenRepository.delete(examen);
   }
 
-  /*
+
   @Override
   public List<Examen> listarExamenesDeUnaCategoria(Categoria categoria) {
     return this.examenRepository.findByCategoria(categoria);
@@ -59,9 +59,5 @@ public class ExamenServiceImpl implements ExamenService {
   public List<Examen> obtenerExamenesActivosDeUnaCategoria(Categoria categoria) {
     return examenRepository.findByCategoriaAndActivo(categoria,true);
   }
-  */
-
-
-
 
 }
